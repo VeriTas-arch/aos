@@ -1,0 +1,8 @@
+prefix=/home/veritas/catkin_main/devel
+
+Name: plane_part_assemble_task
+Description: Description of plane_part_assemble_task
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

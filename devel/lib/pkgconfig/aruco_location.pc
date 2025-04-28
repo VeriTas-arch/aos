@@ -1,0 +1,8 @@
+prefix=/home/veritas/catkin_main/devel
+
+Name: aruco_location
+Description: Description of aruco_location
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

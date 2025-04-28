@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/veritas/catkin_main/devel/setup.sh
