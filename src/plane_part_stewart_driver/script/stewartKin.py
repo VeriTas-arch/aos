@@ -1,28 +1,25 @@
-import rospy
 import numpy as np
-import numpy.matlib as ml
 import numpy.linalg as la
-import math
-#import spatialmath as sm
+import rospy
+# import spatialmath as sm
 import spatialmath.base as smb
-#import roboticstoolbox as rtb
-import time
+
 
 class stewartKin:
-    def __init__(self,bottomJoints,platformJoints):
+    def __init__(self, bottomJoints, platformJoints):
         self.bottomJoints = bottomJoints
         self.platformJoints = platformJoints
 
-        self.platformJointsHom=np.column_stack([self.platformJoints,np.ones(6)])
-        self.platformJointsHom=self.platformJointsHom.T
+        self.platformJointsHom = np.column_stack([self.platformJoints, np.ones(6)])
+        self.platformJointsHom = self.platformJointsHom.T
 
-        self.bottomJointsHom = np.column_stack([self.bottomJoints,np.ones(6)])
+        self.bottomJointsHom = np.column_stack([self.bottomJoints, np.ones(6)])
         self.bottomJointsHom = self.bottomJointsHom.T
 
         print(self.platformJointsHom)
         print(self.bottomJointsHom)
 
-        '''
+        """
         #this is the basic transformation for stewart to AGV
         self.MatAgv2stewart=smb.transl(200,0,19.8)
         self.zeroTargetHeight = 521.5
@@ -84,70 +81,71 @@ class stewartKin:
 
         self.baseJointsInAGV = np.matmul(self.MatAgv2stewart,self.stewartBaseJointsHom)
         return
-        '''
+        """
 
-    def inverseKin(self,MatTargetPose):
-        #parameters for procession movement
-        platformJointsRstBottom = MatTargetPose@self.platformJointsHom
+    def inverseKin(self, MatTargetPose):
+        # parameters for procession movement
+        platformJointsRstBottom = MatTargetPose @ self.platformJointsHom
         jointsLength = platformJointsRstBottom - self.bottomJointsHom
-        #print(jointsLength)
-        jointLengthAbs=la.norm(jointsLength,axis=0)
+        # print(jointsLength)
+        jointLengthAbs = la.norm(jointsLength, axis=0)
         return jointLengthAbs
 
-    def forwardKin(self,jointLengthAbs,MatInitPose,maxiter=1000,eps=1e-6):
-        x0=np.copy(MatInitPose)
+    def forwardKin(self, jointLengthAbs, MatInitPose, maxiter=1000, eps=1e-6):
+        x0 = np.copy(MatInitPose)
         exitCondition = False
-        iterc=0
+        iterc = 0
 
         while not exitCondition:
-            platformJointsRstBottom = x0@self.platformJointsHom
+            platformJointsRstBottom = x0 @ self.platformJointsHom
             jointsLength = platformJointsRstBottom - self.bottomJointsHom
-            currLen=la.norm(jointsLength,axis=0)
+            currLen = la.norm(jointsLength, axis=0)
 
-            legVector=np.divide(jointsLength,currLen)
-            legVector=legVector[0:3,:]
-            #print(legVector)
-            obVector=self.platformJointsHom[0:3,:]
-            #print(obVector)
-            jacobi1=np.cross(obVector,legVector,axis=0)
-            jacobi=np.column_stack([jacobi1.T,1000*legVector.T])
+            legVector = np.divide(jointsLength, currLen)
+            legVector = legVector[0:3, :]
+            # print(legVector)
+            obVector = self.platformJointsHom[0:3, :]
+            # print(obVector)
+            jacobi1 = np.cross(obVector, legVector, axis=0)
+            jacobi = np.column_stack([jacobi1.T, 1000 * legVector.T])
 
-            invJacobi=la.inv(jacobi)
-            delta = np.mat(currLen-jointLengthAbs)
+            invJacobi = la.inv(jacobi)
+            delta = np.mat(currLen - jointLengthAbs)
             delta = delta.T
-            velocityVec=-invJacobi@delta
-            rotation=np.asarray(velocityVec[0:3])
-            translation=np.asarray(velocityVec[3:6])
+            velocityVec = -invJacobi @ delta
+            rotation = np.asarray(velocityVec[0:3])
+            translation = np.asarray(velocityVec[3:6])
 
             angle = la.norm(rotation)
-            if(angle==0):
-                vect = np.array([1,0,0])
+            if angle == 0:
+                vect = np.array([1, 0, 0])
             else:
-                vect = rotation/la.norm(rotation)
-            deltaRot=smb.angvec2r(angle*0.5,vect)
+                vect = rotation / la.norm(rotation)
+            deltaRot = smb.angvec2r(angle * 0.5, vect)
 
-            #deltaRot= rodrigusMat(rotation)
-            #print(deltaRot)
+            # deltaRot= rodrigusMat(rotation)
+            # print(deltaRot)
 
-            x0[0:3,0:3]=np.matmul(deltaRot,x0[0:3,0:3])
-            x0[0:3,3]=x0[0:3,3]+0.5*1000*translation.T
+            x0[0:3, 0:3] = np.matmul(deltaRot, x0[0:3, 0:3])
+            x0[0:3, 3] = x0[0:3, 3] + 0.5 * 1000 * translation.T
 
-            if la.norm(velocityVec)<1e-12:
-                exitCondition=True
-            if la.norm(delta)<eps:
+            if la.norm(velocityVec) < 1e-12:
                 exitCondition = True
-            iterc=iterc+1
-            if iterc>maxiter:
-                exitCondition=True
-            #print(iterc,delta)
-            #print(iterc,velocityVec)
+            if la.norm(delta) < eps:
+                exitCondition = True
+            iterc = iterc + 1
+            if iterc > maxiter:
+                exitCondition = True
+            # print(iterc,delta)
+            # print(iterc,velocityVec)
 
-        return x0,iterc,delta
+        return x0, iterc, delta
 
-if __name__ == '__main__':
-    rospy.init_node('stewart_driver')
-    bottomJoints = rospy.get_param('/calibration/bottom_joints')
-    platformJoints = rospy.get_param('/calibration/platform_joints')
-    stewart = stewartKin(bottomJoints,platformJoints)
-    
+
+if __name__ == "__main__":
+    rospy.init_node("stewart_driver")
+    bottomJoints = rospy.get_param("/calibration/bottom_joints")
+    platformJoints = rospy.get_param("/calibration/platform_joints")
+    stewart = stewartKin(bottomJoints, platformJoints)
+
     rospy.spin()

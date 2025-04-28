@@ -43,27 +43,28 @@
 
 # Python 2/3 compatibility imports
 from __future__ import print_function
-from six.moves import input # type: ignore
 
-import sys
 import copy
-import rospy
+import sys
+
+import geometry_msgs.msg
 import moveit_commander
 import moveit_msgs.msg
-import geometry_msgs.msg
+import rospy
 import tf2_ros
+from six.moves import input  # type: ignore
 
 try:
-    from math import pi, dist, fabs, cos
+    from math import cos, dist, fabs, pi
 except:  # For Python 2 compatibility
-    from math import pi, fabs, cos, sqrt
+    from math import cos, fabs, pi, sqrt
 
     def dist(p, q):
         return sqrt(sum((p_i - q_i) ** 2.0 for p_i, q_i in zip(p, q)))
 
 
-from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
+from std_msgs.msg import String
 
 ## END_SUB_TUTORIAL
 
@@ -187,7 +188,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## The Panda's zero configuration is at a `singularity <https://www.quora.com/Robotics-What-is-meant-by-kinematic-singularity>`_, so the first
         ## thing we want to do is move it to a slightly better configuration.
         ## We use the constant `tau = 2*pi <https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals>`_ for convenience:
-        # We get the joint values from the group and change some of the values:
+        ## We get the joint values from the group and change some of the values:
         joint_goal = move_group.get_current_joint_values()
         joint_goal[0] = 0.0
         joint_goal[1] = 0.0
@@ -201,7 +202,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         # move_group.go(joint_goal, wait=True)
         result = move_group.plan(joint_goal)
         rospy.sleep(0.5)
-        success = move_group.execute(result[1],wait=True)
+        success = move_group.execute(result[1], wait=True)
 
         # Calling ``stop()`` ensures that there is no residual movement
         move_group.stop()
@@ -212,7 +213,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         current_joints = move_group.get_current_joint_values()
         return all_close(joint_goal, current_joints, 0.01)
 
-    def go_to_pose_goal(self,target_pos):
+    def go_to_pose_goal(self, target_pos):
         # Copy class variables to local variables to make the web tutorials more clear.
         # In practice, you should use the class variables directly unless you have a good
         # reason not to.
@@ -237,7 +238,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         pose_goal = geometry_msgs.msg.Pose()
         pose_goal.position.x = 0.0
         pose_goal.position.y = 0.0
-        pose_goal.position.z = 0.05+0.714
+        pose_goal.position.z = 0.05 + 0.714
         pose_goal.orientation.x = 0.0
         pose_goal.orientation.y = 0.0
         pose_goal.orientation.z = 0.0
@@ -255,10 +256,10 @@ class MoveGroupPythonInterfaceTutorial(object):
 
         ## Now, we call the planner to compute the plan and execute it.
         # `go()` returns a boolean indicating whether the planning and execution was successful.
-        #success = move_group.go(wait=True)
+        # success = move_group.go(wait=True)
         result = move_group.plan()
         rospy.sleep(0.5)
-        success = move_group.execute(result[1],wait=True)
+        success = move_group.execute(result[1], wait=True)
 
         # Calling `stop()` ensures that there is no residual movement
         move_group.stop()
@@ -525,7 +526,7 @@ def main():
         input("============ Press `Enter` to execute a movement using a pose goal ...")
         tutorial.go_to_pose_goal()
 
-        '''
+        """
         input("============ Press `Enter` to plan and display a Cartesian path ...")
         cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
@@ -556,7 +557,7 @@ def main():
             "============ Press `Enter` to remove the box from the planning scene ..."
         )
         tutorial.remove_box()
-        '''
+        """
 
         print("============ Python tutorial demo complete!")
     except rospy.ROSInterruptException:
