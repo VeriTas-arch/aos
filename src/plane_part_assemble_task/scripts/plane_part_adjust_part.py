@@ -67,9 +67,9 @@ class plane_part_adjust_part:
                 self.referenceLink, self.world, rospy.Time(0), rospy.Duration(1.0)
             )
 
-            worldPlatformRel = self.lookup_transform_quaternion_vector(
-                self.world, self.platformLink, rospy.Time(0), rospy.Duration(1.0)
-            )
+            # worldPlatformRel = self.lookup_transform_quaternion_vector(
+            #     self.world, self.platformLink, rospy.Time(0), rospy.Duration(1.0)
+            # )
 
             referencePlatformRel = matrixHelper.compose_quaternion_vector(
                 referenceModulatingRel, modulatingPlatformRel

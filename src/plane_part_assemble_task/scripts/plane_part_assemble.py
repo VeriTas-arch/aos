@@ -64,7 +64,6 @@ except:  # For Python 2 compatibility
 
 
 from moveit_commander.conversions import pose_to_list
-from std_msgs.msg import String
 
 ## END_SUB_TUTORIAL
 
