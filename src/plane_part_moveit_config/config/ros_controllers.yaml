@@ -1,0 +1,80 @@
+planning_group_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - platform_x_joint
+    - platform_y_joint
+    - platform_z_joint
+    - platform_a_joint
+    - platform_b_joint
+    - platform_c_Joint
+  gains:
+    platform_x_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_y_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_z_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_a_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_b_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_c_Joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+pos_controllers:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - platform_x_joint
+    - platform_y_joint
+    - platform_z_joint
+    - platform_a_joint
+    - platform_b_joint
+    - platform_c_Joint
+  gains:
+    platform_x_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_y_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_z_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_a_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_b_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    platform_c_Joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

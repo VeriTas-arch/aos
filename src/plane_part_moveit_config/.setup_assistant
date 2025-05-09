@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: plane_part
+    relative_path: urdf/plane_part.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/plane_part.srdf
+  CONFIG:
+    author_name: zhangjiwen
+    author_email: zjwtsh@163.com
+    generated_timestamp: 1681486431
