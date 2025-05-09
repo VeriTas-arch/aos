@@ -1,4 +1,4 @@
-prefix=/home/veritas/catkin_main/devel
+prefix=/home/chendingye20240820/catkin_ws/devel
 
 Name: plane_part_moveit_config
 Description: Description of plane_part_moveit_config

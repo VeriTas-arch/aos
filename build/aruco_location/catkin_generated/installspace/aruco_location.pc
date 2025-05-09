@@ -1,0 +1,8 @@
+prefix=/home/chendingye20240820/catkin_ws/install
+
+Name: aruco_location
+Description: Description of aruco_location
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

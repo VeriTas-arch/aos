@@ -1,0 +1,8 @@
+prefix=/home/chendingye20240820/catkin_ws/install
+
+Name: plane_part_assemble_task
+Description: Description of plane_part_assemble_task
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

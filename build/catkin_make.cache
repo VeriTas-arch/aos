@@ -1,0 +1,2 @@
+aruco_location:plane_part:plane_part_assemble_task:plane_part_moveit_config:plane_part_stewart_driver
+-DCATKIN_DEVEL_PREFIX=/home/chendingye20240820/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/chendingye20240820/catkin_ws/install -G Unix Makefiles
