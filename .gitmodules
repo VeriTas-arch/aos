@@ -1,0 +1,12 @@
+[submodule "src/plane_part_stewart_driver"]
+	path = src/plane_part_stewart_driver
+	url = https://gitee.com/integrity_k/plane_part_stewart_driver.git
+[submodule "src/plane_part_moveit_config"]
+	path = src/plane_part_moveit_config
+	url = https://gitee.com/integrity_k/plane_part_moveit_config.git
+[submodule "src/plane_part_assemble_task"]
+	path = src/plane_part_assemble_task
+	url = https://gitee.com/integrity_k/plane_part_assemble_task.git
+[submodule "src/plane_part"]
+	path = src/plane_part
+	url = https://gitee.com/integrity_k/plane_part.git
