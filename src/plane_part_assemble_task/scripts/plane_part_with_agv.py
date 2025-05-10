@@ -1,34 +1,40 @@
 #!/usr/bin/python3
 
+import copy
+import math
+import time
+
+import cv2
+import numpy as np
 import roslib
 import rospy
-import math
 import tf
 import tf2_ros
-from geometry_msgs.msg import Pose, Twist, TransformStamped, PointStamped, PoseStamped
-import time
-import numpy as np
-from std_msgs.msg import Float64MultiArray
-from sensor_msgs.msg import LaserScan, Image
-from gazebo_msgs.msg import ModelStates
-import copy
-from tf2_geometry_msgs import tf2_geometry_msgs
-import cv2
 from cv_bridge import CvBridge
+from gazebo_msgs.msg import ModelStates
+from geometry_msgs.msg import PointStamped, Pose, PoseStamped, TransformStamped, Twist
 from mathHelper import matrixHelper
+from sensor_msgs.msg import Image, LaserScan
+from std_msgs.msg import Float64MultiArray
+from tf2_geometry_msgs import tf2_geometry_msgs
 
-bridge=CvBridge()
+bridge = CvBridge()
+
 
 class ArucoLocater:
     def __init__(self):
-        self.intrinsic = np.array([[2270.61, 0.0, 960.5], [0.0, 2270.61, 540.5], [0, 0, 1]])
-        self.distortion = np.zeros((1,5))
+        self.intrinsic = np.array(
+            [[2270.61, 0.0, 960.5], [0.0, 2270.61, 540.5], [0, 0, 1]]
+        )
+        self.distortion = np.zeros((1, 5))
 
-        self.image_path = '/modulating_part/camera1/image_raw/' # for cam in gazebo
-        'self.image_path = "?"' # for cam on agv
+        self.image_path = "/modulating_part/camera1/image_raw/"  # for cam in gazebo
+        'self.image_path = "?"'  # for cam on agv
         self.image_raw = None
         self.image_gray = None
-        self.image_sub = rospy.Subscriber(self.image_path, Image, self.image_callback, queue_size=10)
+        self.image_sub = rospy.Subscriber(
+            self.image_path, Image, self.image_callback, queue_size=10
+        )
 
         self.dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)
         self.parameters = cv2.aruco.DetectorParameters()
@@ -39,15 +45,25 @@ class ArucoLocater:
         self.alpha = None
         self.quat = None
 
-    def image_callback(self,msg):
-        self.image_raw = bridge.imgmsg_to_cv2(msg, desired_encoding="passthrough") # transform ros image to opencv image
+    def image_callback(self, msg):
+        self.image_raw = bridge.imgmsg_to_cv2(
+            msg, desired_encoding="passthrough"
+        )  # transform ros image to opencv image
         self.image_gray = cv2.cvtColor(self.image_raw, cv2.COLOR_BGR2GRAY)
         self.update_aruco_location()
 
-    def estimate_pose(self,corners,length):
-        points_3d = np.array([[0, 0.5, -0.5], [0, 0.5, 0.5], [0, -0.5, 0.5], [0, -0.5, -0.5]], dtype=np.float32) * length
+    def estimate_pose(self, corners, length):
+        points_3d = (
+            np.array(
+                [[0, 0.5, -0.5], [0, 0.5, 0.5], [0, -0.5, 0.5], [0, -0.5, -0.5]],
+                dtype=np.float32,
+            )
+            * length
+        )
         points_2d = np.array(corners[0], dtype=np.float32)
-        _, rvec, tvec = cv2.solvePnP(points_3d, points_2d, self.intrinsic, self.distortion)
+        _, rvec, tvec = cv2.solvePnP(
+            points_3d, points_2d, self.intrinsic, self.distortion
+        )
         return rvec, tvec
 
     def update_aruco_location(self):
@@ -56,8 +72,8 @@ class ArucoLocater:
         # detect and update marker's id and corner
         corners, ids, _ = self.detector.detectMarkers(self.image_gray)
         # print corners and ids
-        print("corners: ",corners)
-        print("ids: ",ids)
+        print("corners: ", corners)
+        print("ids: ", ids)
 
         if ids is not None:
             self.corners = corners
@@ -66,11 +82,13 @@ class ArucoLocater:
                 corners = corners[-1]
                 ids = ids[-1]
             # get the rotation vector and translation vector
-            rvec,tvec = self.estimate_pose(corners,0.15)
-            print("pose:",rvec,tvec)
+            rvec, tvec = self.estimate_pose(corners, 0.15)
+            print("pose:", rvec, tvec)
             # get transform matrix
-            R_camera_image = np.array([[0, 0, 1, 0], [-1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 0, 1]])
-            R_image_aruco = np.zeros((4,4), dtype=np.float32)
+            R_camera_image = np.array(
+                [[0, 0, 1, 0], [-1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 0, 1]]
+            )
+            R_image_aruco = np.zeros((4, 4), dtype=np.float32)
             # convert rotation vector to rotation matrix
             rot_mat = cv2.Rodrigues(rvec)
             # fill the rotation matrix
@@ -83,8 +101,9 @@ class ArucoLocater:
             self.quat = tf.transformations.quaternion_from_matrix(R_camera_aruco)
             self.tvec = R_camera_aruco[:3, 3].flatten()
 
-class plane_part_with_agv():
-    def __init__(self,nodename):
+
+class plane_part_with_agv:
+    def __init__(self, nodename):
         rospy.init_node(nodename)
         self.xiangjiLink = "modulating_part/xiangji_Link"
         self.modulatingLink = "modulating_Link"
@@ -92,47 +111,59 @@ class plane_part_with_agv():
         self.bottomLink = "bottom_Link"
         self.referenceLink = "agv_part/reference_Link"
         self.imageTargetLink = "agv_part/image_target1"
-        self.agvLink="agv_part/agv_Link"
+        self.agvLink = "agv_part/agv_Link"
 
-        self.bottomPlatformRel = np.array([0.0,0.0,0.614,0.0,0.0,0.0,1.0])
+        self.bottomPlatformRel = np.array([0.0, 0.0, 0.614, 0.0, 0.0, 0.0, 1.0])
 
-        self.tfBroadcaster =tf2_ros.TransformBroadcaster()
+        self.tfBroadcaster = tf2_ros.TransformBroadcaster()
 
         self.tfBuffer = tf2_ros.Buffer()
         self.tfListener = tf2_ros.TransformListener(self.tfBuffer)
 
         self.aruco_locater = ArucoLocater()
 
-    def lookup_transform_quaternion_vector(self,target_frame,source_frame,time,timeout):
-        trans_ = self.tfBuffer.lookup_transform(target_frame, source_frame, time, timeout)
-        return np.array([
-            trans_.transform.translation.x,
-            trans_.transform.translation.y,
-            trans_.transform.translation.z,
-            trans_.transform.rotation.x,
-            trans_.transform.rotation.y,
-            trans_.transform.rotation.z,
-            trans_.transform.rotation.w,
-            ])
+    def lookup_transform_quaternion_vector(
+        self, target_frame, source_frame, time, timeout
+    ):
+        trans_ = self.tfBuffer.lookup_transform(
+            target_frame, source_frame, time, timeout
+        )
+        return np.array(
+            [
+                trans_.transform.translation.x,
+                trans_.transform.translation.y,
+                trans_.transform.translation.z,
+                trans_.transform.rotation.x,
+                trans_.transform.rotation.y,
+                trans_.transform.rotation.z,
+                trans_.transform.rotation.w,
+            ]
+        )
 
     def run(self):
         rate = rospy.Rate(10)
         trans = TransformStamped()
 
-        imageTargetAgvRel = self.lookup_transform_quaternion_vector(self.imageTargetLink, self.agvLink, rospy.Time(0), rospy.Duration(1.0))
+        imageTargetAgvRel = self.lookup_transform_quaternion_vector(
+            self.imageTargetLink, self.agvLink, rospy.Time(0), rospy.Duration(1.0)
+        )
 
         try:
             while not rospy.is_shutdown():
-                #detection by aruco tags and gives quaternion from rotation vector and translation vector
+                # detection by aruco tags and gives quaternion from rotation vector and translation vector
                 if self.aruco_locater.quat is not None:
-                    xiangjiImageTargetRel = np.concatenate((self.aruco_locater.tvec, self.aruco_locater.quat), axis=0)
+                    xiangjiImageTargetRel = np.concatenate(
+                        (self.aruco_locater.tvec, self.aruco_locater.quat), axis=0
+                    )
                 else:
-                    xiangjiImageTargetRel = np.array([1.6,0,0,0,0,0,1])
+                    xiangjiImageTargetRel = np.array([1.6, 0, 0, 0, 0, 0, 1])
 
-                newTrans = matrixHelper.compose_quaternion_vector(xiangjiImageTargetRel,imageTargetAgvRel)
+                newTrans = matrixHelper.compose_quaternion_vector(
+                    xiangjiImageTargetRel, imageTargetAgvRel
+                )
 
-                #publish the tf topic to make corrected pose of two robots
-                trans.header.frame_id = self.xiangjiLink 
+                # publish the tf topic to make corrected pose of two robots
+                trans.header.frame_id = self.xiangjiLink
                 trans.child_frame_id = self.agvLink
 
                 trans.header.stamp = rospy.Time.now()
@@ -154,9 +185,10 @@ class plane_part_with_agv():
             return
         except KeyboardInterrupt:
             return
-        #rospy.spin()
+        # rospy.spin()
 
-if __name__ == '__main__':
-    service = plane_part_with_agv('digital_twining')
+
+if __name__ == "__main__":
+    service = plane_part_with_agv("digital_twining")
 
     service.run()
