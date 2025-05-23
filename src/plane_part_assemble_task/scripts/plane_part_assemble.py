@@ -43,22 +43,24 @@
 
 # Python 2/3 compatibility imports
 from __future__ import print_function
-from six.moves import input
 
-import sys
 import copy
-import rospy
+import sys
+
+import geometry_msgs.msg
 import moveit_commander
 import moveit_msgs.msg
-import geometry_msgs.msg
+import rospy
 # from tf import TransformListener, transformations
 import tf2_ros
+from six.moves import input
+
 # import time
 
 try:
-    from math import pi, tau, dist, fabs, cos
+    from math import cos, dist, fabs, pi, tau
 except:  # For Python 2 compatibility
-    from math import pi, fabs, cos, sqrt
+    from math import cos, fabs, pi, sqrt
 
     tau = 2.0 * pi
 
@@ -66,8 +68,8 @@ except:  # For Python 2 compatibility
         return sqrt(sum((p_i - q_i) ** 2.0 for p_i, q_i in zip(p, q)))
 
 
-from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
+from std_msgs.msg import String
 
 ## END_SUB_TUTORIAL
 
@@ -135,9 +137,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## Create a `DisplayTrajectory`_ ROS publisher which is used to display
         ## trajectories in Rviz:
         display_trajectory_publisher = rospy.Publisher(
-            "/move_group/display_planned_path",
-            moveit_msgs.msg.DisplayTrajectory,
-            queue_size=20,
+            "/move_group/display_planned_path", moveit_msgs.msg.DisplayTrajectory, queue_size=20
         )
 
         ## END_SUB_TUTORIAL
@@ -196,7 +196,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         joint_goal[0] = 0.0
         joint_goal[1] = 0.0
         joint_goal[2] = 0.0
-        joint_goal[3] = 0.0 
+        joint_goal[3] = 0.0
         joint_goal[4] = 0.0
         joint_goal[5] = 0.0  # 1/6 of a turn
 
@@ -205,7 +205,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         # move_group.go(joint_goal, wait=True)
         result = move_group.plan(joint_goal)
         rospy.sleep(0.5)
-        success = move_group.execute(result[1],wait=True)
+        success = move_group.execute(result[1], wait=True)
 
         # Calling ``stop()`` ensures that there is no residual movement
         move_group.stop()
@@ -216,7 +216,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         current_joints = move_group.get_current_joint_values()
         return all_close(joint_goal, current_joints, 0.01)
 
-    def go_to_pose_goal(self,target_pos):
+    def go_to_pose_goal(self, target_pos):
         # Copy class variables to local variables to make the web tutorials more clear.
         # In practice, you should use the class variables directly unless you have a good
         # reason not to.
@@ -241,7 +241,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         pose_goal = geometry_msgs.msg.Pose()
         pose_goal.position.x = 0.0
         pose_goal.position.y = 0.0
-        pose_goal.position.z = 0.05+0.714
+        pose_goal.position.z = 0.05 + 0.714
         pose_goal.orientation.x = 0.0
         pose_goal.orientation.y = 0.0
         pose_goal.orientation.z = 0.0
@@ -259,10 +259,10 @@ class MoveGroupPythonInterfaceTutorial(object):
 
         ## Now, we call the planner to compute the plan and execute it.
         # `go()` returns a boolean indicating whether the planning and execution was successful.
-        #success = move_group.go(wait=True)
+        # success = move_group.go(wait=True)
         result = move_group.plan()
         rospy.sleep(0.5)
-        success = move_group.execute(result[1],wait=True)
+        success = move_group.execute(result[1], wait=True)
 
         # Calling `stop()` ensures that there is no residual movement
         move_group.stop()
@@ -363,9 +363,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## first waypoint in the `RobotTrajectory`_ or ``execute()`` will fail
         ## END_SUB_TUTORIAL
 
-    def wait_for_state_update(
-        self, box_is_known=False, box_is_attached=False, timeout=4
-    ):
+    def wait_for_state_update(self, box_is_known=False, box_is_attached=False, timeout=4):
         # Copy class variables to local variables to make the web tutorials more clear.
         # In practice, you should use the class variables directly unless you have a good
         # reason not to.
@@ -460,9 +458,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## END_SUB_TUTORIAL
 
         # We wait for the planning scene to update.
-        return self.wait_for_state_update(
-            box_is_attached=True, box_is_known=False, timeout=timeout
-        )
+        return self.wait_for_state_update(box_is_attached=True, box_is_known=False, timeout=timeout)
 
     def detach_box(self, timeout=4):
         # Copy class variables to local variables to make the web tutorials more clear.
@@ -481,9 +477,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## END_SUB_TUTORIAL
 
         # We wait for the planning scene to update.
-        return self.wait_for_state_update(
-            box_is_known=True, box_is_attached=False, timeout=timeout
-        )
+        return self.wait_for_state_update(box_is_known=True, box_is_attached=False, timeout=timeout)
 
     def remove_box(self, timeout=4):
         # Copy class variables to local variables to make the web tutorials more clear.
@@ -503,9 +497,7 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## END_SUB_TUTORIAL
 
         # We wait for the planning scene to update.
-        return self.wait_for_state_update(
-            box_is_attached=False, box_is_known=False, timeout=timeout
-        )
+        return self.wait_for_state_update(box_is_attached=False, box_is_known=False, timeout=timeout)
 
 
 def main():
@@ -516,20 +508,16 @@ def main():
         print("----------------------------------------------------------")
         print("Press Ctrl-D to exit at any time")
         print("")
-        input(
-            "============ Press `Enter` to begin the tutorial by setting up the moveit_commander ..."
-        )
+        input("============ Press `Enter` to begin the tutorial by setting up the moveit_commander ...")
         tutorial = MoveGroupPythonInterfaceTutorial()
 
-        input(
-            "============ Press `Enter` to execute a movement using a joint state goal ..."
-        )
+        input("============ Press `Enter` to execute a movement using a joint state goal ...")
         tutorial.go_to_joint_state()
 
         input("============ Press `Enter` to execute a movement using a pose goal ...")
         tutorial.go_to_pose_goal()
 
-        '''
+        """
         input("============ Press `Enter` to plan and display a Cartesian path ...")
         cartesian_plan, fraction = tutorial.plan_cartesian_path()
 
@@ -560,7 +548,7 @@ def main():
             "============ Press `Enter` to remove the box from the planning scene ..."
         )
         tutorial.remove_box()
-        '''
+        """
 
         print("============ Python tutorial demo complete!")
     except rospy.ROSInterruptException:

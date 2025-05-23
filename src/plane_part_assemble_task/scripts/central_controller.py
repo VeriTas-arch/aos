@@ -1,15 +1,21 @@
+import time
+
 import rospy
 from std_msgs.msg import Int8
-import time
+
 
 class central_controller:
     def __init__(self):
-        rospy.init_node('central_controller', anonymous=True)
-        self.pub_agv = rospy.Publisher('/agv_ctrl_cmd', Int8, queue_size=10)
-        self.pub_modu = rospy.Publisher('/modu_ctrl_cmd', Int8, queue_size=10)
+        rospy.init_node("central_controller", anonymous=True)
+        self.pub_agv = rospy.Publisher("/agv_ctrl_cmd", Int8, queue_size=10)
+        self.pub_modu = rospy.Publisher("/modu_ctrl_cmd", Int8, queue_size=10)
 
-        self.sub_agv = rospy.Subscriber('/agv_state', Int8, self.agv_state_callback)  # 0:not moving; 1: moving
-        self.sub_modu = rospy.Subscriber('/modu_state', Int8, self.modu_state_callback)  # 0:not moving; 1: moving
+        self.sub_agv = rospy.Subscriber(
+            "/agv_state", Int8, self.agv_state_callback
+        )  # 0:not moving; 1: moving
+        self.sub_modu = rospy.Subscriber(
+            "/modu_state", Int8, self.modu_state_callback
+        )  # 0:not moving; 1: moving
         self.agv_state = 0
         self.modu_state = 0
 
@@ -95,6 +101,7 @@ class central_controller:
             time.sleep(0.05)
 
         print("ALL DONE")
+
 
 if __name__ == "__main__":
     controller = central_controller()

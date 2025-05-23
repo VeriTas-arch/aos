@@ -1,20 +1,21 @@
+import numpy as np
 import rospy
 import tf2_ros
-import numpy as np
-from geometry_msgs.msg import Twist
 from config import Config
+from geometry_msgs.msg import Twist
 
 config = Config()
 MODE = config.MODE
 
+
 class agv_controller:
     def __init__(self):
-        rospy.init_node('agv_controller', anonymous=True)
+        rospy.init_node("agv_controller", anonymous=True)
 
         if MODE == "REAL":
-            self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)  # real
+            self.pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)  # real
         else:
-            self.pub = rospy.Publisher('/agv_part/cmd_vel', Twist, queue_size=10)  # sim
+            self.pub = rospy.Publisher("/agv_part/cmd_vel", Twist, queue_size=10)  # sim
 
         self.tfBuffer = tf2_ros.Buffer()
         self.tfListener = tf2_ros.TransformListener(self.tfBuffer)
@@ -34,15 +35,17 @@ class agv_controller:
 
     def lookup_agv2mod_trans(self, target_frame, source_frame, time, timeout):
         trans_ = self.tfBuffer.lookup_transform(target_frame, source_frame, time, timeout)
-        return np.array([
-            trans_.transform.translation.x,
-            trans_.transform.translation.y,
-            trans_.transform.translation.z,
-            trans_.transform.rotation.x,
-            trans_.transform.rotation.y,
-            trans_.transform.rotation.z,
-            trans_.transform.rotation.w,
-            ])
+        return np.array(
+            [
+                trans_.transform.translation.x,
+                trans_.transform.translation.y,
+                trans_.transform.translation.z,
+                trans_.transform.rotation.x,
+                trans_.transform.rotation.y,
+                trans_.transform.rotation.z,
+                trans_.transform.rotation.w,
+            ]
+        )
 
     def pub_message(self, v, omega):
         self.update_message(v, omega)
@@ -63,7 +66,8 @@ class agv_controller:
         rospy.loginfo(self.control_message)
         self.pub.publish(self.control_message)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     controller = agv_controller()
     while not rospy.is_shutdown():
         controller.pub_message_ask()
