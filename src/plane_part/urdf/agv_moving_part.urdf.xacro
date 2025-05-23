@@ -148,7 +148,7 @@
     name="target1_Joint"
     type="fixed">
     <origin
-      xyz="-0.67 0 -0.015"
+      xyz="-0.67 0 0.075"
       rpy="0 0 0" />
     <parent
       link="reference_Link" />

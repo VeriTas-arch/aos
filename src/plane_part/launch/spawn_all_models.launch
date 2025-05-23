@@ -1,31 +1,31 @@
 <?xml version="1.0"?>
 <launch>
-     <arg name="paused" default="false"/> 
-     <arg name="use_sim_time" default="true"/> 
-     <arg name="gui" default="true"/> 
-     <arg name="headless" default="false"/> 
-     <arg name="debug" default="false"/> 
+      <arg name="paused" default="false"/> 
+      <arg name="use_sim_time" default="true"/> 
+      <arg name="gui" default="true"/> 
+      <arg name="headless" default="false"/> 
+      <arg name="debug" default="false"/> 
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-     <arg name="debug" value="$(arg debug)" />
-     <arg name="gui" value="$(arg gui)" />
-     <arg name="paused" value="$(arg paused)"/>
-     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
-     <arg name="headless" value="$(arg headless)"/>
+      <arg name="debug" value="$(arg debug)" />
+      <arg name="gui" value="$(arg gui)" />
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+      <arg name="headless" value="$(arg headless)"/>
     </include>
 
-    <group ns='agv_part'> 
+    <group ns='agv_part'>
         <param name="robot_description"
-             command="$(find xacro)/xacro '$(find plane_part)/urdf/agv_moving_part.urdf.xacro'"/>
+              command="$(find xacro)/xacro '$(find plane_part)/urdf/agv_moving_part.urdf.xacro'"/>
 
         <node name="agv1_spawner" pkg="gazebo_ros" type="spawn_model" 
-             respawn="false" output="screen" args="-urdf -model agv_moving_part -param robot_description -z 0.05 -x 2.0"/>
+              respawn="false" output="screen" args="-urdf -model agv_moving_part -param robot_description -z 0.05 -x 2.0"/>
 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" 
-           respawn="false" output="screen">                             
-           <param name="publish_frequency" type="double" value="50.0" /> 
-           <param name="tf_prefix" type="string" value="agv_part" />
-        </node>  
+            respawn="false" output="screen">                             
+            <param name="publish_frequency" type="double" value="50.0" /> 
+            <param name="tf_prefix" type="string" value="agv_part" />
+        </node>
     </group>
 
     <group ns='modulating_part'> 
@@ -41,11 +41,11 @@
                 targeting_controller"
               respawn="false" output="screen"/>
 
-       <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" 
-           respawn="false" output="screen">                             
-           <param name="publish_frequency" type="double" value="50.0" /> 
-           <param name="tf_prefix" type="string" value="modulating_part" />
-       </node>  
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" 
+            respawn="false" output="screen">                             
+            <param name="publish_frequency" type="double" value="50.0" /> 
+            <param name="tf_prefix" type="string" value="modulating_part" />
+        </node>  
 
     </group>
 
@@ -56,4 +56,3 @@
     args="-d $(find plane_part)/assemble.rviz" />
 
 </launch>
-

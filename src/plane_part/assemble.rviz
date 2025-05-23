@@ -207,6 +207,107 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        agv_Link:
+          Value: true
+        agv_part/agv_Link:
+          Value: true
+        agv_part/image_target1:
+          Value: true
+        agv_part/image_target2:
+          Value: true
+        agv_part/image_target3:
+          Value: true
+        agv_part/image_target4:
+          Value: true
+        agv_part/image_target5:
+          Value: true
+        agv_part/image_target6:
+          Value: true
+        agv_part/image_target7:
+          Value: true
+        agv_part/image_target8:
+          Value: true
+        agv_part/image_target9:
+          Value: true
+        agv_part/reference_Link:
+          Value: true
+        agv_part/support_Link:
+          Value: true
+        modulating_part/base_link:
+          Value: true
+        modulating_part/bottom_Link:
+          Value: true
+        modulating_part/modulating_Link:
+          Value: true
+        modulating_part/platform_Link:
+          Value: true
+        modulating_part/platform_a_Link:
+          Value: true
+        modulating_part/platform_b_Link:
+          Value: true
+        modulating_part/platform_x_Link:
+          Value: true
+        modulating_part/platform_y_Link:
+          Value: true
+        modulating_part/platform_z_Link:
+          Value: true
+        modulating_part/world:
+          Value: true
+        modulating_part/xiangji_Link:
+          Value: true
+        odom:
+          Value: true
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        modulating_part/world:
+          modulating_part/base_link:
+            modulating_part/bottom_Link:
+              modulating_part/platform_x_Link:
+                modulating_part/platform_y_Link:
+                  modulating_part/platform_z_Link:
+                    modulating_part/platform_a_Link:
+                      modulating_part/platform_b_Link:
+                        modulating_part/platform_Link:
+                          modulating_part/modulating_Link:
+                            modulating_part/xiangji_Link:
+                              agv_part/agv_Link:
+                                agv_part/support_Link:
+                                  agv_part/reference_Link:
+                                    agv_part/image_target1:
+                                      {}
+                                    agv_part/image_target2:
+                                      {}
+                                    agv_part/image_target3:
+                                      {}
+                                    agv_part/image_target4:
+                                      {}
+                                    agv_part/image_target5:
+                                      {}
+                                    agv_part/image_target6:
+                                      {}
+                                    agv_part/image_target7:
+                                      {}
+                                    agv_part/image_target8:
+                                      {}
+                                    agv_part/image_target9:
+                                      {}
+        odom:
+          agv_Link:
+            {}
+      Update Interval: 0
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -274,4 +375,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 317
-  Y: 79
+  Y: 42

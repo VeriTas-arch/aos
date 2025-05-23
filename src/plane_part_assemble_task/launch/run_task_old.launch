@@ -2,7 +2,7 @@
 <launch>
   <!--rosparam file="$(find plane_part_stewart_driver)/config/calibration.yaml" /-->
 
-  <include file="$(find plane_part_stewart_driver)/launch/stewart_bringup.launch">
+  <include file="$(find plane_part_stewart_driver)/launch/stewart_brnigup.launch">
   </include>
 
   <include file="$(find plane_part)/launch/spawn_all_models.launch">
