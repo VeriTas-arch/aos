@@ -9,8 +9,7 @@ import tf2_ros
 from config import Config
 from cv_bridge import CvBridge
 from gazebo_msgs.msg import ModelStates
-from geometry_msgs.msg import (PointStamped, Pose, PoseStamped,
-                               TransformStamped, Twist)
+from geometry_msgs.msg import PointStamped, Pose, PoseStamped, TransformStamped, Twist
 from mathHelper import matrixHelper
 from sensor_msgs.msg import Image, LaserScan
 from std_msgs.msg import Float64MultiArray

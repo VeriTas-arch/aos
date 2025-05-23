@@ -10,12 +10,10 @@ import tf2_ros
 import tf.transformations
 from config import Config
 from gazebo_msgs.msg import ModelStates
-from geometry_msgs.msg import (PointStamped, Pose, PoseStamped,
-                               TransformStamped, Twist)
+from geometry_msgs.msg import PointStamped, Pose, PoseStamped, TransformStamped, Twist
 from mathHelper import matrixHelper
 from sensor_msgs.msg import LaserScan
-from std_msgs.msg import (Float64MultiArray, Int8, MultiArrayDimension,
-                          MultiArrayLayout)
+from std_msgs.msg import Float64MultiArray, Int8, MultiArrayDimension, MultiArrayLayout
 from tf2_geometry_msgs import tf2_geometry_msgs
 
 config = Config()

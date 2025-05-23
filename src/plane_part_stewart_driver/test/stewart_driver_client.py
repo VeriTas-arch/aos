@@ -4,6 +4,7 @@ from __future__ import print_function
 
 # Brings in the SimpleActionClient
 import actionlib
+
 # Brings in the messages used by the fibonacci action, including the
 # goal message and the result message.
 import moveit_msgs.msg
