@@ -1,0 +1,21 @@
+#!/bin/bash
+# Check if the last commit message contains [skip-post-commit] and skip further actions if it does
+last_commit_msg=$(git log -1 --pretty=%B)
+if [[ "$last_commit_msg" == *"[skip-post-commit]"* ]]; then
+    echo "Detected [skip-post-commit], skipping further actions."
+    exit 0
+else
+    echo "No [skip-post-commit] detected, continuing with post-commit actions."
+    echo
+    echo "Running isort for import sorting..."
+    isort src
+    echo "Current formatting settings: [max-line-length=108][skip magic trailing comma]"
+    black src --line-length=108 --skip-magic-trailing-comma
+    if [ -n "$(git status --porcelain)" ]; then
+        git add .
+        git commit -m "chore: auto format code [skip-post-commit]"
+        echo "Code formatted successfully!"
+    else
+        echo "No formatting changes required."
+    fi
+fi
