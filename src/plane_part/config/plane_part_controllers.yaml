@@ -1,7 +1,7 @@
 # Publish all joint states -----------------------------------
 joint_state_controller:
   type: joint_state_controller/JointStateController
-  publish_rate: 50  
+  publish_rate: 50
 
 targeting_controller:
   type: "position_controllers/JointGroupPositionController"
@@ -13,10 +13,9 @@ targeting_controller:
     - platform_b_joint
     - platform_c_Joint
   gains:
-    platform_x_joint: {p: 10.0, i: 0.1, d: 1.0}
-    platform_y_joint: {p: 10.0, i: 0.1, d: 1.0}
-    platform_z_joint: {p: 100.0, i: 0.1, d: 1.0}
-    platform_a_joint: {p: 10.0, i: 0.1, d: 1.0}
-    platform_b_joint: {p: 10.0, i: 0.1, d: 1.0}
-    platform_c_Joint: {p: 10.0, i: 0.1, d: 1.0}
-
+    platform_x_joint: { p: 10.0, i: 0.1, d: 1.0 }
+    platform_y_joint: { p: 10.0, i: 0.1, d: 1.0 }
+    platform_z_joint: { p: 100.0, i: 0.1, d: 1.0 }
+    platform_a_joint: { p: 10.0, i: 0.1, d: 1.0 }
+    platform_b_joint: { p: 10.0, i: 0.1, d: 1.0 }
+    platform_c_Joint: { p: 10.0, i: 0.1, d: 1.0 }

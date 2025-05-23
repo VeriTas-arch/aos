@@ -1,336 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by
+Stephen Brawner (brawner@gmail.com)
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="plane_part" xmlns:xacro="http://wiki.ros.org/xacro">
+    name="plane_part" xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <!-- include the xacro files-->
-  <xacro:include filename="$(find plane_part)/urdf/plane_part.transmission.xacro"/>
-  <xacro:include filename="$(find plane_part)/urdf/plane_part.gazebo.xacro"/>
-  <xacro:include filename="$(find plane_part)/urdf/materials.xacro"/>
+    <!-- include the xacro files-->
+    <xacro:include filename="$(find plane_part)/urdf/plane_part.transmission.xacro" />
+    <xacro:include filename="$(find plane_part)/urdf/plane_part.gazebo.xacro" />
+    <xacro:include filename="$(find plane_part)/urdf/materials.xacro" />
 
-  <link name="world"/>
+    <link name="world" />
 
-  <joint name="world_base" type="fixed">
-    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
-    <parent link="world"/>
-    <child link="base_link"/>
-  </joint>
-  <link name="base_link"/>
-  <joint
-    name="support_joint"
-    type="fixed">
-    <origin
-      xyz="0 0 0"
-      rpy="0.0 0.0 0.0" />
-    <parent
-      link="base_link" />
-    <child
-      link="support_link" />
-  </joint>
-  <link
-    name="support_link">
-    <inertial>
-      <origin
-        xyz="0.00014734 -0.0013249 -0.027719"
-        rpy="0 0 0" />
-      <mass
-        value="0.90493" />
-      <inertia
-        ixx="0.0011428"
-        ixy="-1.8056E-35"
-        ixz="-3.0813E-20"
-        iyy="0.0011428"
-        iyz="2.0036E-20"
-        izz="0.00050332" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/base_link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="1 0 0 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/base_link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <link
-    name="bottom_Link">
-    <inertial>
-      <origin
-        xyz="-0.00022231 1.7845E-05 -0.0028171"
-        rpy="0 0 0" />
-      <mass
-        value="85.132" />
-      <inertia
-        ixx="6.1506"
-        ixy="-5.4882E-05"
-        ixz="-3.6045E-06"
-        iyy="6.1562"
-        iyz="-1.8817E-05"
-        izz="12.301" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/bottom_Link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0 1 0 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/bottom_Link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="bottom_joint"
-    type="fixed">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="support_link" />
-    <child
-      link="bottom_Link" />
-    <axis
-      xyz="1 0 0" />
-  </joint>
-  <link name="platform_x_Link"/>
-  <joint
-    name="platform_x_joint"
-    type="prismatic">
-    <origin
-      xyz="0 0 0.61449"
-      rpy="0 0 0" />
-    <parent
-      link="bottom_Link" />
-    <child
-      link="platform_x_Link" />
-    <axis
-      xyz="1 0 0" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
-  <link name="platform_y_Link"/>
-  <joint
-    name="platform_y_joint"
-    type="prismatic">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="platform_x_Link" />
-    <child
-      link="platform_y_Link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
-  <link name="platform_z_Link"/>
-  <joint
-    name="platform_z_joint"
-    type="prismatic">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="platform_y_Link" />
-    <child
-      link="platform_z_Link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
-  <link name="platform_a_Link"/>
-  <joint
-    name="platform_a_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="platform_z_Link" />
-    <child
-      link="platform_a_Link" />
-    <axis
-      xyz="1 0 0" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
-  <link name="platform_b_Link"/>
-  <joint
-    name="platform_b_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="platform_a_Link" />
-    <child
-      link="platform_b_Link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
-  <link
-    name="platform_Link">
-    <inertial>
-      <origin
-        xyz="0.15606 -0.015287 0.26814"
-        rpy="0 0 0" />
-      <mass
-        value="15.16" />
-      <inertia
-        ixx="0.49155"
-        ixy="-2.0348E-11"
-        ixz="6.0171E-11"
-        iyy="0.36981"
-        iyz="1.1642E-11"
-        izz="0.69741" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/platform_Link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0 0 1 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/platform_Link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="platform_Joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="platform_b_Link" />
-    <child
-      link="platform_Link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
-  <link
-    name="reference_Link">
-    <inertial>
-      <origin
-        xyz="1.0965 6.3655E-06 0.6803"
-        rpy="0 0 0" />
-      <mass
-        value="16.653" />
-      <inertia
-        ixx="0.68402"
-        ixy="-1.9429E-16"
-        ixz="5.867E-17"
-        iyy="0.35007"
-        iyz="8.3298E-14"
-        izz="0.74142" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/reference_Link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0 1 1 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://plane_part/meshes/reference_Link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="reference_Joint"
-    type="prismatic">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="bottom_Link" />
-    <child
-      link="reference_Link" />
-    <axis
-      xyz="1 0 0" />
-    <limit
-      lower="-0.3"
-      upper="0.3"
-      effort="0.1"
-      velocity="0.1" />
-  </joint>
+    <joint name="world_base" type="fixed">
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
+        <parent link="world" />
+        <child link="base_link" />
+    </joint>
+    <link name="base_link" />
+    <joint
+        name="support_joint"
+        type="fixed">
+        <origin
+            xyz="0 0 0"
+            rpy="0.0 0.0 0.0" />
+        <parent
+            link="base_link" />
+        <child
+            link="support_link" />
+    </joint>
+    <link
+        name="support_link">
+        <inertial>
+            <origin
+                xyz="0.00014734 -0.0013249 -0.027719"
+                rpy="0 0 0" />
+            <mass
+                value="0.90493" />
+            <inertia
+                ixx="0.0011428"
+                ixy="-1.8056E-35"
+                ixz="-3.0813E-20"
+                iyy="0.0011428"
+                iyz="2.0036E-20"
+                izz="0.00050332" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/base_link.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="1 0 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <link
+        name="bottom_Link">
+        <inertial>
+            <origin
+                xyz="-0.00022231 1.7845E-05 -0.0028171"
+                rpy="0 0 0" />
+            <mass
+                value="85.132" />
+            <inertia
+                ixx="6.1506"
+                ixy="-5.4882E-05"
+                ixz="-3.6045E-06"
+                iyy="6.1562"
+                iyz="-1.8817E-05"
+                izz="12.301" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/bottom_Link.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="0 1 0 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/bottom_Link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint
+        name="bottom_joint"
+        type="fixed">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="support_link" />
+        <child
+            link="bottom_Link" />
+        <axis
+            xyz="1 0 0" />
+    </joint>
+    <link name="platform_x_Link" />
+    <joint
+        name="platform_x_joint"
+        type="prismatic">
+        <origin
+            xyz="0 0 0.61449"
+            rpy="0 0 0" />
+        <parent
+            link="bottom_Link" />
+        <child
+            link="platform_x_Link" />
+        <axis
+            xyz="1 0 0" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
+    <link name="platform_y_Link" />
+    <joint
+        name="platform_y_joint"
+        type="prismatic">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="platform_x_Link" />
+        <child
+            link="platform_y_Link" />
+        <axis
+            xyz="0 1 0" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
+    <link name="platform_z_Link" />
+    <joint
+        name="platform_z_joint"
+        type="prismatic">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="platform_y_Link" />
+        <child
+            link="platform_z_Link" />
+        <axis
+            xyz="0 0 1" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
+    <link name="platform_a_Link" />
+    <joint
+        name="platform_a_joint"
+        type="revolute">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="platform_z_Link" />
+        <child
+            link="platform_a_Link" />
+        <axis
+            xyz="1 0 0" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
+    <link name="platform_b_Link" />
+    <joint
+        name="platform_b_joint"
+        type="revolute">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="platform_a_Link" />
+        <child
+            link="platform_b_Link" />
+        <axis
+            xyz="0 1 0" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
+    <link
+        name="platform_Link">
+        <inertial>
+            <origin
+                xyz="0.15606 -0.015287 0.26814"
+                rpy="0 0 0" />
+            <mass
+                value="15.16" />
+            <inertia
+                ixx="0.49155"
+                ixy="-2.0348E-11"
+                ixz="6.0171E-11"
+                iyy="0.36981"
+                iyz="1.1642E-11"
+                izz="0.69741" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/platform_Link.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/platform_Link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint
+        name="platform_Joint"
+        type="revolute">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="platform_b_Link" />
+        <child
+            link="platform_Link" />
+        <axis
+            xyz="0 0 1" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
+    <link
+        name="reference_Link">
+        <inertial>
+            <origin
+                xyz="1.0965 6.3655E-06 0.6803"
+                rpy="0 0 0" />
+            <mass
+                value="16.653" />
+            <inertia
+                ixx="0.68402"
+                ixy="-1.9429E-16"
+                ixz="5.867E-17"
+                iyy="0.35007"
+                iyz="8.3298E-14"
+                izz="0.74142" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/reference_Link.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="0 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://plane_part/meshes/reference_Link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint
+        name="reference_Joint"
+        type="prismatic">
+        <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="bottom_Link" />
+        <child
+            link="reference_Link" />
+        <axis
+            xyz="1 0 0" />
+        <limit
+            lower="-0.3"
+            upper="0.3"
+            effort="0.1"
+            velocity="0.1" />
+    </joint>
 </robot>

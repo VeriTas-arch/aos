@@ -13,7 +13,8 @@
         <material>Gazebo/Yellow</material>
     </gazebo>
 
-    <!--ros control plugin>
+    <!--ros
+    control plugin>
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
             <robotNamespace>/</robotNamespace>
@@ -23,14 +24,13 @@
     </gazebo-->
 
     <gazebo>
-     <plugin name="base_controller" filename="libgazebo_ros_planar_move.so">
-         <commandTopic>cmd_vel</commandTopic>
-         <odometryTopic>odom</odometryTopic>
-         <odometryFrame>odom</odometryFrame>
-         <odometryRate>20.0</odometryRate>
-         <robotBaseFrame>agv_Link</robotBaseFrame>
-     </plugin>                                                                                                        
-    </gazebo>  
+        <plugin name="base_controller" filename="libgazebo_ros_planar_move.so">
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryRate>20.0</odometryRate>
+            <robotBaseFrame>agv_Link</robotBaseFrame>
+        </plugin>
+    </gazebo>
 
 </robot>
-

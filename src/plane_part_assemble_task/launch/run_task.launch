@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <launch>
-  <!--rosparam file="$(find plane_part_stewart_driver)/config/calibration.yaml" /-->
+    <!--rosparam file="$(find
+    plane_part_stewart_driver)/config/calibration.yaml" /-->
 
-  <include file="$(find plane_part)/launch/spawn_all_models.launch">
-  </include>
+    <include file="$(find plane_part)/launch/spawn_all_models.launch">
+    </include>
 
 </launch>

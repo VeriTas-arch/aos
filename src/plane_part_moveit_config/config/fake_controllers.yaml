@@ -8,8 +8,8 @@ controller_list:
       - platform_a_joint
       - platform_b_joint
       - platform_c_Joint
-initial:  # Define initial robot poses per group
-#  - group: planning_group
-#    pose: home
+initial: # Define initial robot poses per group
+  #  - group: planning_group
+  #    pose: home
 
   []

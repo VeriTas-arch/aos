@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <include file="$(find plane_part)/launch/display.launch" />
+    <include file="$(find plane_part)/launch/display.launch" />
 
-  <param name="calibration_file" value="$(find plane_part_stewart_driver)/config/calibration.yaml" />
+    <param name="calibration_file" value="$(find plane_part_stewart_driver)/config/calibration.yaml" />
 
 </launch>
-

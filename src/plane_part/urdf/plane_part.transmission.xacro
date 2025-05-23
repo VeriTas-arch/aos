@@ -49,7 +49,7 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    
+
     <transmission name="trans06">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="platform_c_Joint">
@@ -59,8 +59,9 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    
-    <!--transmission name="refer01">
+
+    <!--transmission
+    name="refer01">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="reference_Joint">
             <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
@@ -70,7 +71,8 @@
         </actuator>
     </transmission-->
 
-    <!--transmission name="trans04_3">
+    <!--transmission
+    name="trans04_3">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="clap_roll_joint">
             <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
@@ -81,4 +83,3 @@
     </transmission-->
 
 </robot>
-
