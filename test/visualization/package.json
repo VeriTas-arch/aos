@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@foxglove/ws-protocol": "^0.8.0"
+  }
+}
